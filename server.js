@@ -27,7 +27,7 @@ app.get('/', function(req, res) {
 
 // session middleware
 const sessionMiddleware = session({
-    secret: "secret-key",
+    secret: "secret" || process.env.PORT,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -93,13 +93,13 @@ const sessionMiddleware = session({
   
     // Listen to incoming bot messages
     socket.on("bot-message", (message) => {
-      console.log("Bot message received:", message);
+    //   console.log("Bot message received:", message);
       socket.emit("bot-message", message);
     });
   
     // Listen to incoming user messages
     socket.on("user-message", (message) => {
-        console.log("User message received:", message);
+        // console.log("User message received:", message);
     
         if (!userName) {
           // Save  user's name and update the welcome message
@@ -223,7 +223,7 @@ const sessionMiddleware = session({
       socket.on("disconnect", () => {
         delete socket.request.session[deviceId];
     
-        console.log("User is  disconnected:", socket.id);
+        // console.log("User is  disconnected:", socket.id);
       });
   
   
