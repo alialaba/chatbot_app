@@ -27,12 +27,12 @@ app.get('/', function(req, res) {
 
 // session middleware
 const sessionMiddleware = session({
-    secret: "secret" || process.env.PORT,
+    secret: "secret" || process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
       secure: false,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      maxAge: 60 * 60 * 1000, // session cookies expires after 1 hr in ms
     },
   });
   
