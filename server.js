@@ -39,10 +39,6 @@ const sessionMiddleware = session({
   
 
 
-
-
-app.use(sessionMiddleware);
-
   const suyaFries = {
     23: "Peppered Kilishi",
     24: "Danbu Namar",
@@ -53,7 +49,6 @@ app.use(sessionMiddleware);
   
   const orderHistory = [];
   
-  app.use(sessionMiddleware);
 
   io.use((socket, next) => {
     sessionMiddleware(socket.request, socket.request.res, next);
