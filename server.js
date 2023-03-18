@@ -54,7 +54,7 @@ app.use(sessionMiddleware);
   const orderHistory = [];
   
   app.use(sessionMiddleware);
-  
+
   io.use((socket, next) => {
     sessionMiddleware(socket.request, socket.request.res, next);
   });
@@ -239,6 +239,15 @@ app.use(sessionMiddleware);
   
 
 const PORT = 3200 || process.env.PORT;
+
+// Error handler
+app.use(function (error, req, res, next) {
+  const errStatusCode = error.status || 500;
+  const errMessage = error.message || "something broke";
+  console.log(errMessage);
+
+  res.status(errStatusCode).json({ success: false, message: errMessage });
+});
 
 //start server
 server.listen(PORT, ()=>{
