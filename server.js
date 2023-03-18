@@ -34,9 +34,15 @@ const sessionMiddleware = session({
       secure: false,
       maxAge: 60 * 60 * 1000, // session cookies expires after 1 hr in ms
     },
-  });
+
+});
   
-  
+
+
+
+
+app.use(sessionMiddleware);
+
   const suyaFries = {
     23: "Peppered Kilishi",
     24: "Danbu Namar",
@@ -46,6 +52,8 @@ const sessionMiddleware = session({
   };
   
   const orderHistory = [];
+  
+  app.use(sessionMiddleware);
   
   io.use((socket, next) => {
     sessionMiddleware(socket.request, socket.request.res, next);
