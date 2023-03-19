@@ -244,6 +244,10 @@ app.use(function (error, req, res, next) {
   res.status(errStatusCode).json({ success: false, message: errMessage });
 });
 
+  app.use((req,res,next)=>{
+    console.log(err.stack) 
+  })
+
 //start server
 server.listen(PORT, ()=>{
     console.log(`Server is running on PORT ${PORT}`);
