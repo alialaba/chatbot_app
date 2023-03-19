@@ -3,12 +3,13 @@ const app = express();
 const http = require("http");
 const session = require("express-session");
 const socketio = require("socket.io");
+const MongoStore = require("connect-mongo");
 
 const server = http.createServer(app);
 const io = socketio(server);
 
 const path = require("path")
-
+require("dotenv").config();
 
 
 
@@ -23,13 +24,14 @@ app.get('/', function(req, res) {
     res.render('index');
 });
 
-
+const storeSession = MongoStore.create({ mongoUrl: process.env.MONGODB_URL })
 
 // session middleware
 const sessionMiddleware = session({
     secret: "SECRET KEY" || process.env.SECRET,
     resave: false,
     saveUninitialized: true,
+    store:  storeSession,
     cookie: {
       secure: false,
       maxAge: 60 * 60 * 1000, // session cookies expires after 1 hr in ms
@@ -236,6 +238,13 @@ const sessionMiddleware = session({
 const PORT = 3200 || process.env.PORT;
 
 // Error handler
+// app.use(function (error, req, res, next) {
+//   const errStatusCode = error.status || 500;
+//   const errMessage = error.message || "something broke";
+//   console.log(errMessage);
+
+//   res.status(errStatusCode).json({ success: false, message: errMessage });
+// });
 
   app.use((err, req,res,next)=>{
     console.log(err.stack) 
