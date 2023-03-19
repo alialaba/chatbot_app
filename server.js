@@ -4,7 +4,6 @@ const http = require("http");
 const session = require("express-session");
 const socketio = require("socket.io");
 const MongoStore = require("connect-mongo");
-
 const server = http.createServer(app);
 const io = socketio(server);
 
@@ -12,7 +11,9 @@ const path = require("path")
 require("dotenv").config();
 
 
-
+//connect to DB
+const database = require("./config/db");
+database.connectToDB(); 
 //Set static folder
 app.use(express.static(path.join(__dirname, 'public')))
 
