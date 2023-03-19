@@ -2,18 +2,18 @@ const express = require("express");
 const app = express();
 const http = require("http");
 const session = require("express-session");
-const socketio = require("socket.io");
-const MongoStore = require("connect-mongo");
+const {Server} = require("socket.io");
+// const MongoStore = require("connect-mongo");
 const server = http.createServer(app);
-const io = socketio(server);
+const io = new  Server(server);
 
 const path = require("path")
 require("dotenv").config();
 
 
 //connect to DB
-const database = require("./config/db");
-database.connectToDB(); 
+// const database = require("./config/db");
+// database.connectToDB(); 
 //Set static folder
 app.use(express.static(path.join(__dirname, 'public')))
 
@@ -25,14 +25,14 @@ app.get('/', function(req, res) {
     res.render('index');
 });
 
-const storeSession = MongoStore.create({ mongoUrl: process.env.MONGODB_URL })
+// const storeSession = MongoStore.create({ mongoUrl: process.env.MONGODB_URL })
 
 // session middleware
 const sessionMiddleware = session({
     secret: "SECRET KEY" || process.env.SECRET,
     resave: false,
     saveUninitialized: true,
-    store:  storeSession,
+    // store:  storeSession,
     cookie: {
       secure: false,
       maxAge: 60 * 60 * 1000, // session cookies expires after 1 hr in ms
