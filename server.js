@@ -27,13 +27,13 @@ app.get('/', function(req, res) {
 
 // session middleware
 const sessionMiddleware = session({
-    secret: "secret" || process.env.SECRET,
+    secret: "SECRET KEY" || process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
       secure: false,
       maxAge: 60 * 60 * 1000, // session cookies expires after 1 hr in ms
-    },
+    }
 
 });
   
@@ -236,15 +236,8 @@ const sessionMiddleware = session({
 const PORT = 3200 || process.env.PORT;
 
 // Error handler
-app.use(function (error, req, res, next) {
-  const errStatusCode = error.status || 500;
-  const errMessage = error.message || "something broke";
-  console.log(errMessage);
 
-  res.status(errStatusCode).json({ success: false, message: errMessage });
-});
-
-  app.use((req,res,next)=>{
+  app.use((err, req,res,next)=>{
     console.log(err.stack) 
   })
 
