@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *, *::before ,*::after{
+    box-sizing: border-box;
+}
+
+ /* Custom scrollbar styles */
+ ::-webkit-scrollbar {
+    width: 15px; /* Width of the scrollbar */
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(0, 0, 0);
+  }
+
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+    line-height: 1.5;
+  }
+
+  #chatContainer {
+    width: 676px;
+    margin: 0 auto;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgb(196, 196, 196);
+  }
+
+  #chatBox {
+    height: 60vh;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+  }
+
+  #inputContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  #inputField {
+    flex-grow: 1;
+    height: 50px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 1px;
+    background-color: #ffffff;
+    font-size: 16px;
+    outline: none;
+  }
+
+  #sendButton {
+    margin-left: -90px;
+    height: 50px;
+    width: 50px;
+    border: none;
+    border-radius: 50%;
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+    
+    color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .message-outer-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+    color: white;
+    gap: 10px;
+    align-items: flex-end;
+  }
+
+  .message-outer-container.user {
+    justify-content: flex-end;
+  }
+
+  #bot {
+    padding: 15px 20px;
+    background: #e6e7e7;
+    border-radius: 10px;
+    max-width: 100%;
+    color: rgb(70, 68, 68);
+    position: relative;
+  }
+
+  #bot::before {
+    content: "";
+    position: absolute;
+    border-style: solid;
+    border-width: 20px 20px 0px 0px;
+    border-bottom-left-radius: 10px;
+    border-color: transparent #e6e7e7 transparent transparent;
+    bottom: 0px;
+    left: -10px;
+  }
+
+  #user {
+    padding: 15px 20px;
+    background: #5fd3ff;
+    border-radius: 10px;
+    max-width: 100%;
+    color: white;
+    position: relative;
+  }
+
+  #user::after {
+    content: "";
+    position: absolute;
+    border-style: solid;
+    border-width: 20px 0px 0px 20px;
+    border-color: transparent transparent transparent #5fd3ff;
+    border-bottom-right-radius: 10px;
+    bottom: 0px;
+    right: -10px;
+  }
+
+  #bot-name {
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+    
+    height: 70px;
+    margin: 0;
+    padding: 8px 20px;
+    padding-left: 5rem;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: white;
+  }
+
+  .bot-image {
+    width: 50px;
+    padding-top: 10px;
+  }
+
+  .img {
+    max-width: 40px;
+    height: 30px;
+    padding-bottom: 25px;
+  }
+
+  .status {
+    font-size: small;
+    margin-top: -20px;
+  }
+
+  .timestamp {
+    font-size: 0.65em;
+    color: rgb(180, 180, 180);
+  }
+
+  @media only screen and (max-width: 600px) {
+    #chatBox {
+      height: 494px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: scroll;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+        sans-serif;
+      font-size: 1.2rem;
+    }
+  }
+    </style>
+</head>
+<body>
+    <main>
+        <div id="chatContainer">
+          <div id="bot-name">
+            <div class="bot-image-container">
+              <svg class="bot-image" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+              width="100" height="100"
+              viewBox="0 0 100 100">
+              <path d="M95,41.97v18.451c0,1.574-0.38,3.148-1.085,4.559v10.637c0,9.28-7.706,16.823-17.181,16.823H65.641 c-1.628,1.368-3.723,2.171-5.915,2.171c-4.906,0-8.933-3.853-9.215-8.683H27.349c-6.382,0-11.581-5.405-11.581-12.058V66 c-4.374-1.194-7.598-0.836-7.598-5.579V41.97c0-4.743,3.224-8.759,7.598-9.953v-3.495c0-6.653,5.199-12.058,11.581-12.058h48.472 c6.382,0,11.581,5.405,11.581,12.058v3.495C91.776,33.211,95,37.226,95,41.97z" opacity=".35"></path><path fill="#f2f2f2" d="M92.829,39.799V58.25c0,1.574-0.38,3.148-1.085,4.559v10.637c0,9.28-7.706,16.823-17.181,16.823 H63.47c-1.628,1.368-3.723,2.171-5.915,2.171c-4.906,0-8.933-3.853-9.215-8.683H25.178c-6.382,0-11.581-5.405-11.581-12.058v-3.495 C9.224,67.009,6,62.993,6,58.25V39.799c0-4.743,3.224-8.759,7.598-9.953v-3.495c0-6.653,5.199-12.058,11.581-12.058h48.472 c6.382,0,11.581,5.405,11.581,12.058v3.495C89.606,31.04,92.829,35.056,92.829,39.799z"></path><path fill="#2785bd" d="M85.232,36.977v24.095c0,1.14-1.017,2.062-2.288,2.062H15.885c-1.271,0-2.288-0.923-2.288-2.062 V36.977c0-1.14,1.017-2.062,2.288-2.062h67.059C84.215,34.915,85.232,35.837,85.232,36.977z"></path><path fill="#70bfff" d="M76.549,26.351v42.21H22.28v-42.21c0-1.856,1.302-3.375,2.898-3.375h48.472 C75.246,22.976,76.549,24.495,76.549,26.351z"></path><path fill="#70bfff" d="M76.549,63.134v8.564c0,1.856-1.302,3.375-2.898,3.375H25.178c-1.595,0-2.898-1.52-2.898-3.375 v-8.564H76.549z"></path><path fill="#d9eeff" d="M66.044,64.22H32.786c-1.006,0-1.822-0.857-1.822-1.913V37.913c0-1.057,0.816-1.913,1.822-1.913 h33.258c1.006,0,1.822,0.857,1.822,1.913v24.393C67.866,63.363,67.05,64.22,66.044,64.22z"></path><path fill="none" stroke="#40396e" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3" d="M55.927,53.366c-1.342,1.953-3.763,3.256-6.526,3.256c-2.638,0-4.964-1.188-6.337-2.994"></path><circle cx="39.646" cy="45.768" r="3.256" fill="#40396e"></circle><circle cx="59.183" cy="45.768" r="3.256" fill="#40396e"></circle><path fill="#40396e" d="M87.402,39.799c0-2.692-2.192-4.884-4.884-4.884h-2.713v-8.564c0-3.658-2.757-6.632-6.154-6.632 H25.178c-3.397,0-6.154,2.974-6.154,6.632v8.564h-2.713c-2.692,0-4.884,2.192-4.884,4.884V58.25c0,2.692,2.192,4.884,4.884,4.884 h2.713v8.564c0,3.658,2.757,6.632,6.154,6.632h48.472c3.397,0,6.154-2.974,6.154-6.632v-8.564h2.713 c0.186,0,0.362-0.035,0.543-0.055v10.366c0,4.412-3.89,8.14-8.493,8.14H60.974c-0.611-1.28-1.906-2.171-3.419-2.171 c-2.098,0-3.799,1.701-3.799,3.799c0,2.098,1.701,3.799,3.799,3.799c1.513,0,2.808-0.891,3.419-2.171h13.594 c6.478,0,11.749-5.112,11.749-11.396V61.506c0-0.069-0.012-0.134-0.02-0.201c0.68-0.84,1.106-1.894,1.106-3.055V39.799z M77.634,59.878c-0.599,0-1.085,0.486-1.085,1.085v10.734c0,1.856-1.302,3.375-2.898,3.375H25.178c-1.595,0-2.898-1.52-2.898-3.375 V60.963c0-0.599-0.486-1.085-1.085-1.085h-4.884c-0.899,0-1.628-0.729-1.628-1.628V39.799c0-0.899,0.729-1.628,1.628-1.628h4.884 c0.599,0,1.085-0.486,1.085-1.085V26.351c0-1.856,1.302-3.375,2.898-3.375h48.472c1.595,0,2.898,1.519,2.898,3.375v10.734 c0,0.599,0.486,1.085,1.085,1.085h4.884c0.899,0,1.628,0.729,1.628,1.628V58.25c0,0.899-0.729,1.628-1.628,1.628H77.634z"></path>
+              </svg>
+            </div>
+            <div class="bot-name">
+              <b><p class="logo">Danbu Spot</p></b>
+              <p class="status">Online</p>
+            </div>
+          </div>
+          
+          <div id="chatBox"></div>
+          <div id="inputContainer">
+            <input
+              type="text"
+              id="inputField"
+              placeholder="Type your message here..."
+            />
+            <button id="sendButton">
+              <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="25px" height="25px"><path d="M 0 1 L 0 10.5 L 19 12 L 0 13.5 L 0 23 L 24 12 Z"/></svg>
+            </button>
+          </div>
+        </div>
+    
+      </main>
+      <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+      <script>
+          // Socket connection to the server
+  const socket = io();
+
+
+
+//DOM Elements
+const chatbox = document.getElementById("chatBox");
+const inputField = document.getElementById("inputField");
+const sendBtn = document.getElementById("sendButton");
+
+
+//function that append message to chatbot
+const outputMessage =(message, sender)=>{
+  const chatTextElement = document.createElement("div");
+  chatTextElement.id = sender;
+  chatTextElement.className = "message-text";
+  chatTextElement.textContent = message;
+  chatTextElement.innerHTML = message.replace(/\n/g, "<br>")
+
+  const timestamp = new Date().toLocaleDateString();
+  const timeElement = document.createElement("span");
+  timeElement.className = "timestamp"
+  timeElement.textContent = timestamp;
+
+
+  const chatTextContainer = document.createElement("div");
+  chatTextContainer.className ="message-container" + sender;
+
+  const chatTextOuterContainer = document.createElement("div");
+  chatTextOuterContainer.className = "message-outer-container" + sender;
+
+  // chatTextContainer.innerHTML ="to";
+  // chatTextOuterContainer.innerHTML = "chat"
+  // chatTextElement.innerHTML ="Wlecome";
+
+  chatTextContainer.appendChild(chatTextElement);
+  chatTextContainer.appendChild(timeElement)
+  chatTextOuterContainer.appendChild(chatTextContainer);
+  chatbox.appendChild(chatTextOuterContainer);
+  chatbox.scrollTop = chatbox.scrollHeight;
+
+}
+
+//handling sending message
+
+const sendMessage =()=>{
+  const message= inputField.value;
+  if(message === "") return ;
+  
+  outputMessage(message , "user");
+  //emit message
+  socket.emit("user-message" , message);
+  inputField.value = "";
+}
+
+
+// Handling receiving messages from the server
+
+socket.on("bot-message", (message)=>{
+outputMessage(message, "bot")
+})
+
+//event listener
+sendBtn.addEventListener("click",  sendMessage)
+
+inputField.addEventListener("keypress", (event)=>{
+  // event.keyCode or event.which  property will have the code of the pressed key
+  let keyCode = event.keyCode ? event.keyCode : event.which;
+  if(keyCode === 13){
+      // console.log("Entered");
+      sendMessage();
+  }
+})
+      </script>
+    
+</body>
+</html>

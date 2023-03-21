@@ -15,14 +15,14 @@ require("dotenv").config();
 // const database = require("./config/db");
 // database.connectToDB(); 
 //Set static folder
-app.use(express.static(path.join(__dirname, 'public')))
+// app.use(express.static(path.join(__dirname, 'public')))
 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+// app.set("view engine", "ejs");
+// app.set("views", path.join(__dirname, "views"));
 
 // Render page
 app.get('/', function(req, res) {
-    res.render('index');
+    res.sendFile(__dirname + '/chatbot.html');
 });
 
 // const storeSession = MongoStore.create({ mongoUrl: process.env.MONGODB_URL })
