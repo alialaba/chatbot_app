@@ -20,16 +20,12 @@ require("dotenv").config();
 // app.set("view engine", "ejs");
 // app.set("views", path.join(__dirname, "views"));
 
-// Render page
-app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/chatbot.html');
-});
 
 // const storeSession = MongoStore.create({ mongoUrl: process.env.MONGODB_URL })
 
 // session middleware
 const sessionMiddleware = session({
-    secret: "SECRET KEY" || process.env.SECRET,
+    secret: "SECRET-KEY",
     resave: false,
     saveUninitialized: true,
     // store:  storeSession,
@@ -39,6 +35,11 @@ const sessionMiddleware = session({
     }
 
 });
+
+// Render page
+ app.get("/", (req, res)=> {
+  res.sendFile(__dirname + "/chatbot.html");
+ });
   
 
 
@@ -233,10 +234,10 @@ const sessionMiddleware = session({
       });
   
   
-  })
+  });
   
 
-const PORT = 3200 || process.env.PORT;
+    const PORT = 3000 || process.env.PORT;
 
 // Error handler
 // app.use(function (error, req, res, next) {
