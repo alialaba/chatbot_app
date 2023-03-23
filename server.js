@@ -7,7 +7,7 @@ const {Server} = require("socket.io");
 const server = http.createServer(app);
 const io = new  Server(server);
 
-const path = require("path")
+// const path = require("path")
 require("dotenv").config();
 
 
@@ -23,9 +23,15 @@ require("dotenv").config();
 
 // const storeSession = MongoStore.create({ mongoUrl: process.env.MONGODB_URL })
 
+//-momery unleaked---------
+app.set('trust proxy', 1);
+
 // session middleware
+
+
+
 const sessionMiddleware = session({
-    secret: "SECRET-KEY",
+    secret: "secret",
     resave: false,
     saveUninitialized: true,
     // store:  storeSession,
@@ -35,6 +41,7 @@ const sessionMiddleware = session({
     }
 
 });
+app.use(sessionMiddleware)
 
 // Render page
  app.get("/", (req, res)=> {
@@ -249,8 +256,15 @@ const sessionMiddleware = session({
 // });
 
   app.use((err, req,res,next)=>{
-    console.log(err.stack) 
+    // console.log(err.stack) 
+    if(!req.session){
+      return next(new Error('Oh no')) //handle error
+  }
+  next() //otherwise continue
   })
+
+
+   
 
 //start server
 server.listen(PORT, ()=>{
